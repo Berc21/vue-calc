@@ -48,7 +48,8 @@ export default {
       current: "",
       memory: "",
       isOperation: false,
-      numerals: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+      numerals: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      history: [],
     };
   },
   methods: {
@@ -65,7 +66,9 @@ export default {
       } else {
         if (this.isOperation) {
           if (key == "=") {
+            this.current = String(this.current);
             this.current = this.calculated;
+            this.history.push(this.memory.trim().slice(0, -1).trim());
             this.memory = "";
             this.isOperation = false;
           } else if (key == "C") {
@@ -100,6 +103,7 @@ export default {
             break;
           case "=":
             if (this.memory == "") return;
+            this.history.push(this.memory);
             this.memory += ` ${this.current} ${key}`;
             this.current = this.calculated;
             this.memory = "";
