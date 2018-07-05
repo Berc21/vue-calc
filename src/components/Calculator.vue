@@ -13,7 +13,7 @@
   </header>
   <main class="calculator-operator">
     <button @click="onPress" name="%" class="calculator-operator__item">%</button>
-    <button @click="onPress" name=">√" class="calculator-operator__item">√</button>
+    <button @click="onPress" name="√" class="calculator-operator__item">√</button>
     <button @click="onPress" name="x²" class="calculator-operator__item">x²</button>
     <button @click="onPress" name="1/x" class="calculator-operator__item">1/x</button>
     <button @click="onPress" name="CE" class="calculator-operator__item">CE</button>
@@ -124,8 +124,9 @@ export default {
           case "x²":
             this.current = Number(this.current);
             this.current = Math.pow(this.current, 2)
-
-
+          case "√":
+            this.current = Number(this.current);
+            this.current = Math.sqrt(this.current);
         }
       }
     }
