@@ -81,11 +81,13 @@ export default {
             this.isOperation = true;
             break;
           case "x":
+            if (this.memory == "") return;
             key = "*";
             this.memory += ` ${this.current} ${key}`;
             this.isOperation = true;
             break;
           case "÷":
+             if (this.memory == "") return;
             key = "/";
             this.memory += ` ${this.current} ${key}`;
             this.isOperation = true;
