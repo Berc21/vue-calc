@@ -4,45 +4,131 @@
       <h1 class="calculator-header__heading">Vcalc</h1>
       <section class="calculator-screen">
         <div class="calculator-screen-wrapper">
-            <span class="calculator-screen-wrapper__all"> 7 + 8 + 9 </span>
-           <span class="calculator-screen-wrapper__current">7</span>
+           <span v-if="memory" class="calculator-screen-wrapper__all"> {{memory}} </span>
+           <span v-else class="calculator-screen-wrapper__all"> ... </span>
+           <span v-if="!isOperation" class="calculator-screen-wrapper__current">{{current}}</span>
+            <span v-else class="calculator-screen-wrapper__current">{{calculated}}</span>
         </div>
       </section>
   </header>
   <main class="calculator-operator">
-    <button class="calculator-operator__item">%</button>
-    <button class="calculator-operator__item">√</button>
-    <button class="calculator-operator__item">x²</button>
-    <button class="calculator-operator__item">1/x</button>
-    <button class="calculator-operator__item">CE</button>
-    <button class="calculator-operator__item">C</button>
-    <button class="calculator-operator__item">←</button>
-    <button class="calculator-operator__item">÷</button>
-    <button class="calculator-operator__item">7</button>
-    <button class="calculator-operator__item">8</button>
-    <button class="calculator-operator__item">9</button>
-    <button class="calculator-operator__item">x</button>
-    <button class="calculator-operator__item">4</button>
-    <button class="calculator-operator__item">5</button>
-    <button class="calculator-operator__item">6</button>
-    <button class="calculator-operator__item">-</button>
-    <button class="calculator-operator__item">1</button>
-    <button class="calculator-operator__item">2</button>
-    <button class="calculator-operator__item">3</button>
-    <button class="calculator-operator__item">+</button>
-    <button class="calculator-operator__item">±</button>
-    <button class="calculator-operator__item">0</button>
-    <button class="calculator-operator__item">.</button>
-    <button class="calculator-operator__item">=</button>
+    <button @click="onPress" name="%" class="calculator-operator__item">%</button>
+    <button @click="onPress" name=">√" class="calculator-operator__item">√</button>
+    <button @click="onPress" name="x²" class="calculator-operator__item">x²</button>
+    <button @click="onPress" name="1/x" class="calculator-operator__item">1/x</button>
+    <button @click="onPress" name="CE" class="calculator-operator__item">CE</button>
+    <button @click="onPress" name="C" class="calculator-operator__item">C</button>
+    <button @click="onPress" name="←" class="calculator-operator__item">←</button>
+    <button @click="onPress" name="÷" class="calculator-operator__item">÷</button>
+    <button @click="onPress" name="7" class="calculator-operator__item">7</button>
+    <button @click="onPress" name="8" class="calculator-operator__item">8</button>
+    <button @click="onPress" name="9" class="calculator-operator__item">9</button>
+    <button @click="onPress" name="x" class="calculator-operator__item">x</button>
+    <button @click="onPress" name="4" class="calculator-operator__item">4</button>
+    <button @click="onPress" name="5" class="calculator-operator__item">5</button>
+    <button @click="onPress" name="6" class="calculator-operator__item">6</button>
+    <button @click="onPress" name="-" class="calculator-operator__item">-</button>
+    <button @click="onPress" name="1" class="calculator-operator__item">1</button>
+    <button @click="onPress" name="2" class="calculator-operator__item">2</button>
+    <button @click="onPress" name="3" class="calculator-operator__item">3</button>
+    <button @click="onPress" name="+" class="calculator-operator__item">+</button>
+    <button @click="onPress" name="±" class="calculator-operator__item">±</button>
+    <button @click="onPress" name="0" class="calculator-operator__item">0</button>
+    <button @click="onPress" name="." class="calculator-operator__item">.</button>
+    <button @click="onPress" name="=" class="calculator-operator__item">=</button>
   </main>
   </div>
 </template>
 
 <script>
 export default {
-  name: "HelloWorld",
+  name: "Calculator",
   data() {
-    return {};
+    return {
+      current: "",
+      memory: "",
+      isOperation: false,
+      numerals: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    };
+  },
+  methods: {
+    onPress(event) {
+      let key = event.target.name;
+
+      if (this.isOperation) {
+        this.current = "";
+      }
+
+      if (this.numerals.includes(key)) {
+        this.current += key;
+        this.isOperation = false;
+      } else {
+        if (this.isOperation) {
+          if (key == "=") {
+            this.current = this.calculated;
+            this.memory = "";
+            this.isOperation = false;
+          } else {
+            return;
+          }
+        }
+
+        switch (key) {
+          case "+":
+          case "-":
+            if (this.current == "") return;
+            this.memory += ` ${this.current} ${key}`;
+            this.isOperation = true;
+            break;
+          case "x":
+            key = "*";
+            this.memory += ` ${this.current} ${key}`;
+            this.isOperation = true;
+            break;
+          case "÷":
+            key = "/";
+            this.memory += ` ${this.current} ${key}`;
+            this.isOperation = true;
+            break;
+          case "=":
+            if (this.memory == "") return;
+            this.memory += ` ${this.current} ${key}`;
+            this.current = this.calculated;
+            this.memory = "";
+            this.isOperation = false;
+            break;
+          case "←":
+            this.current = String(this.current);
+            let removedOne = this.current.trim().slice(0, -1);
+            this.current = removedOne;
+            break;
+          case "CE":
+            this.current = '';
+          case "C":
+            this.current = '';
+            this.memory = '';
+          case "±":
+           this.current = String(this.current);
+           if (this.current == '') return;
+
+           if(this.current.slice(0,1) == '-') {
+              this.current = this.current.substring(1, this.current.length);
+            }else {
+              this.current = '-'+ this.current;
+            }
+        }
+      }
+    }
+  },
+  computed: {
+    calculated() {
+      return eval(
+        this.memory
+          .trim()
+          .slice(0, -1)
+          .trim()
+      );
+    }
   }
 };
 </script>
@@ -53,7 +139,7 @@ export default {
   max-width: 400px;
   width: 100%;
   margin: 0 auto;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 .calculator-header {
@@ -70,8 +156,9 @@ export default {
 .calculator-screen {
   display: flex;
   justify-content: flex-end;
-  background: lighten( #000, 95) ;
-
+  background: lighten(#000, 95);
+  width: 100%;
+  height: 64px;
   padding: 4px 8px;
   border-radius: 4px;
   .calculator-screen-wrapper {
@@ -79,7 +166,6 @@ export default {
     flex-direction: column;
     &__all {
       text-align: right;
-
     }
     &__current {
       text-align: right;
@@ -103,7 +189,7 @@ export default {
     font-size: 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     &:hover {
-      background-color: darken(#fff,10)
+      background-color: darken(#fff, 10);
     }
   }
 }
