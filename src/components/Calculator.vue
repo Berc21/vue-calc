@@ -119,6 +119,11 @@ export default {
               this.current = '-'+ this.current;
             }
             break;
+          case "x²":
+            this.current = Number(this.current);
+            this.current = Math.pow(this.current, 2)
+
+
         }
       }
     }
