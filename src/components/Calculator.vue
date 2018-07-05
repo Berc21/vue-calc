@@ -37,6 +37,14 @@
     <button @click="onPress" name="." class="calculator-operator__item">.</button>
     <button @click="onPress" name="=" class="calculator-operator__item">=</button>
   </main>
+
+
+  <section class="history" >
+    <button class="history__button" @click="showHistory">History</button>
+     <ul v-show="isHistoryOpen" class="history__list">
+       <li v-for="(operation, index) in history" :key="index">{{operation}}</li>
+     </ul>
+  </section>
   </div>
 </template>
 
@@ -50,6 +58,7 @@ export default {
       isOperation: false,
       numerals: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
       history: [],
+      isHistoryOpen: false
     };
   },
   methods: {
@@ -68,7 +77,12 @@ export default {
           if (key == "=") {
             this.current = String(this.current);
             this.current = this.calculated;
-            this.history.push(this.memory.trim().slice(0, -1).trim());
+            this.history.push(
+              this.memory
+                .trim()
+                .slice(0, -1)
+                .trim()
+            );
             this.memory = "";
             this.isOperation = false;
           } else if (key == "C") {
@@ -103,8 +117,14 @@ export default {
             break;
           case "=":
             if (this.memory == "") return;
-            this.history.push(this.memory);
+
             this.memory += ` ${this.current} ${key}`;
+            this.history.push(
+              this.memory
+                .trim()
+                .slice(0, -1)
+                .trim()
+            );
             this.current = this.calculated;
             this.memory = "";
             this.isOperation = false;
@@ -158,6 +178,9 @@ export default {
             this.current = this.current + ".";
         }
       }
+    },
+    showHistory() {
+      this.isHistoryOpen = !this.isHistoryOpen;
     }
   },
   computed: {
@@ -180,6 +203,7 @@ export default {
   width: 100%;
   margin: 0 auto;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  position: relative;
 }
 
 .calculator-header {
@@ -231,6 +255,14 @@ export default {
     &:hover {
       background-color: darken(#fff, 10);
     }
+  }
+}
+
+.history {
+  &__button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
   }
 }
 </style>
