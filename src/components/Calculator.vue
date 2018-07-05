@@ -68,12 +68,20 @@ export default {
             this.current = this.calculated;
             this.memory = "";
             this.isOperation = false;
-          } else {
+          } else if (key == 'C') {
+             this.current = "";
+             this.isOperation = false;
+          } else if (key == 'CE') {
+            this.memory = "";
+            this.current = "";
+          }
+          else {
             return;
           }
         }
 
         switch (key) {
+
           case "+":
           case "-":
             if (this.current == "") return;
@@ -106,10 +114,10 @@ export default {
             break;
           case "CE":
             this.current = "";
+            this.memory = "";
             break;
           case "C":
             this.current = "";
-            this.memory = "";
             break;
           case "±":
             this.current = String(this.current);
