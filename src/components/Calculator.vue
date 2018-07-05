@@ -40,4 +40,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+.calculator-list {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
 </style>

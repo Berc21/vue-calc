@@ -7,6 +7,9 @@
 
 <script>
 import Calculator from './components/Calculator'
+import 'simple-css-reset/reset.css';
+
+
 
 export default {
   name: 'App',
