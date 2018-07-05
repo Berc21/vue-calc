@@ -122,11 +122,15 @@ export default {
             }
             break;
           case "x²":
+             if (this.current == '') return;
             this.current = Number(this.current);
             this.current = Math.pow(this.current, 2)
+            break;
           case "√":
+             if (this.current == '') return;
             this.current = Number(this.current);
             this.current = Math.sqrt(this.current);
+            break;
         }
       }
     }
