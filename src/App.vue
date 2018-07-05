@@ -7,7 +7,8 @@
 
 <script>
 import Calculator from './components/Calculator'
-import 'simple-css-reset/reset.css';
+import 'simple-css-reset/reset.css'
+
 
 
 
@@ -20,5 +21,11 @@ export default {
 </script>
 
 <style>
+
+@import "https://fonts.googleapis.com/css?family=Roboto";
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
 
 </style>
