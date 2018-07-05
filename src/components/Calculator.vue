@@ -104,9 +104,11 @@ export default {
             break;
           case "CE":
             this.current = '';
+            break;
           case "C":
             this.current = '';
             this.memory = '';
+            break;
           case "±":
            this.current = String(this.current);
            if (this.current == '') return;
@@ -116,6 +118,7 @@ export default {
             }else {
               this.current = '-'+ this.current;
             }
+            break;
         }
       }
     }
