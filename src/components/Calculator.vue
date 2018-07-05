@@ -105,37 +105,47 @@ export default {
             this.current = removedOne;
             break;
           case "CE":
-            this.current = '';
+            this.current = "";
             break;
           case "C":
-            this.current = '';
-            this.memory = '';
+            this.current = "";
+            this.memory = "";
             break;
           case "±":
-           this.current = String(this.current);
-           if (this.current == '') return;
+            this.current = String(this.current);
+            if (this.current == "") return;
 
-           if(this.current.slice(0,1) == '-') {
+            if (this.current.slice(0, 1) == "-") {
               this.current = this.current.substring(1, this.current.length);
-            }else {
-              this.current = '-'+ this.current;
+            } else {
+              this.current = "-" + this.current;
             }
             break;
           case "x²":
-             if (this.current == '') return;
+            if (this.current == "") return;
             this.current = Number(this.current);
-            this.current = Math.pow(this.current, 2)
+            this.current = Math.pow(this.current, 2);
             break;
           case "√":
-             if (this.current == '') return;
+            if (this.current == "") return;
             this.current = Number(this.current);
             this.current = Math.sqrt(this.current);
             break;
           case "1/x":
-            if (this.current == '') return;
+            if (this.current == "") return;
             this.current = Number(this.current);
-            this.current = 1/this.current;
+            this.current = 1 / this.current;
             break;
+          case ".":
+            this.current = String(this.current);
+            if (
+              this.current == "" ||
+              Number(this.current) % 1 != 0 ||
+              this.current.slice(0, -1) == "."
+            )
+              return;
+
+            this.current = this.current + ".";
         }
       }
     }
