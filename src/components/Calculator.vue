@@ -131,6 +131,11 @@ export default {
             this.current = Number(this.current);
             this.current = Math.sqrt(this.current);
             break;
+          case "1/x":
+            if (this.current == '') return;
+            this.current = Number(this.current);
+            this.current = 1/this.current;
+            break;
         }
       }
     }
